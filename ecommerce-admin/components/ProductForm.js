@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const ProductForm = ({
@@ -13,13 +14,14 @@ const ProductForm = ({
     const [description,setDescription] = useState(existingDescription || '');
     const [price,setPrice] = useState(existingPrice || '');
     const [goToProduct,setGoToProduct] = useState(false);
+    const router = useRouter();
 
     const saveProduct = async (ev) => {
-        console.log('camehere');
         ev.preventDefault();
         const data = { title, description, price};
         if(_id){
             await axios.put('/api/products',{...data,_id});
+            router.push('/products',undefined,{shallow:false});
         }else{
             await axios.post('/api/products',data);
         }
@@ -27,7 +29,7 @@ const ProductForm = ({
     }
 
     if(goToProduct){
-        //router.push('/products');
+        router.push('/products');
     }
 
 
