@@ -1,4 +1,3 @@
-import clientPromise from "@/lib/mongodb";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 
@@ -11,6 +10,10 @@ const handle = async(req,res)=>{
             title,description,price
         });
         res.json(productDoc);
+    }
+
+    if(method == 'GET'){
+        res.json(await Product.find());
     }
 };
 
