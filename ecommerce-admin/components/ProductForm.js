@@ -32,8 +32,18 @@ const ProductForm = ({
         router.push('/products');
     }
     
-    const uploadImage=(e)=>{
-        console.log(e);
+    const uploadImage=async(e)=>{
+        const files = e.target?.files;
+        if(files?.length>0){
+            const data = new FormData();
+            for(const file of files){
+                data.append('file',file);
+            }
+            const res = await axios.post('/api/upload',data,{
+                headers:{'Content-Type':'multipart/form-data'},
+            });
+            console.log(res.data);
+        }
     }
 
 
@@ -47,7 +57,7 @@ const ProductForm = ({
                     Photos
                 </label>
                 <div className="mb-2">
-                    <button 
+                    <label 
                     className="w-24 h-24 border text-center text-center 
                     flex flex-col items-center justify-center text-sm gap-2 cursor-pointer text-gray-500 rounded-lg bg-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -56,8 +66,8 @@ const ProductForm = ({
                         <div>
                             Upload
                         </div>
-                        <input type="file" onChange={uploadImage}/>
-                    </button>
+                        <input type="file" onChange={uploadImage} className="hidden"/>
+                    </label>
                     {!images?.length && (
                         <div>
                             No Photos in this Product
