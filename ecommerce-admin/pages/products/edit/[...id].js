@@ -30,7 +30,6 @@ const EditProductPage = () => {
             </h1>
             {
                 productInfo && <ProductForm {...productInfo}/>
-
             }
         </Layout>
     )
